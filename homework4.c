@@ -15,8 +15,11 @@ mpirun -np 8 ./homework4 5000 5000 outputs
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char* argv[]) {
+
+    double start = MPI_Wtime();
 
     MPI_Init(&argc, &argv); // Start parallelized code
 
@@ -201,6 +204,12 @@ int main(int argc, char* argv[]) {
                 fprintf(file, "\n");
             }
         }
+    }
+
+    double end = MPI_Wtime();
+    double totalTime = end - start;
+    if (rank == 0) {
+        printf("Time taken: %f seconds.\n", totalTime);
     }
 
     MPI_Finalize(); // End parallelized code
